@@ -57,7 +57,6 @@ def insert_row ():
     db = 'sample')
 
   response = request.get_json()
-  
   log = []
   
   for entry in response:
@@ -75,8 +74,6 @@ def query ():
       password = 'Password123!',
       db = 'sample')
 
-  print config['secret']
-
     # sample_query_json = {
     #   "query": {
     #     "table": "EMPLOYEE",
@@ -89,7 +86,6 @@ def query ():
     # }
 
   response = request.get_json()
-
   log = []
 
   for entry in response:

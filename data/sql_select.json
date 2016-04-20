@@ -1,0 +1,11 @@
+[
+  {
+    "query": {
+      "table": "CUSTOMER",
+      "cols": ["FIRST_NAME", "LAST_NAME", "SSN"],
+      "fields": {
+        "ZIP": "1602"
+      }
+    }
+  }
+]
