@@ -11,7 +11,7 @@
 			"ZIP": "INT(5)",
 			"PHONE": "INT(10)",
 			"EMAIL": "VARCHAR(50)",
-			"SSN": "INT(9) NOT NULL"
+			"SSN": "TINYBLOB NOT NULL"
 		}
 	}
 }
