@@ -1,15 +1,18 @@
 from flask import Flask, request
 from database import Database
 import pymysql
+import json
 from fernet2 import Fernet2
-import os
 
 app = Flask(__name__)
 
-# TODO: ACTUAL KEY MANAGEMENT! THIS IS FOR TESTING...
-SECRET_KEY = "Gb-xBmBDKrjs7AYkOkO4B8roifAG-PTvVp6m_D6SoAw="
-ASSOCIATED_DATA = b"GIDEON_ROCKS"
-ENCRYPTED_COLS = set(["SSN"])
+# CONFIG
+with open('config.json', 'r') as f:
+  config = json.load(f)
+  SECRET_KEY = config['secret'].encode('utf-8')
+  ASSOCIATED_DATA = config['associated_data'].encode('utf-8')
+  ENCRYPTED_COLS = set(config['encrypted_cols'])
+f.close()
 
 def _encrypt (fields):
   fn = Fernet2(SECRET_KEY)
@@ -39,9 +42,9 @@ def create_table ():
     password = 'Password123!',
     db = 'sample')
 
-  json = request.get_json()
+  response = request.get_json()
   
-  db.create_table(json['schema'])
+  db.create_table(response['schema'])
 
   return "CREATED NEW TABLE: %s" % json['schema']['table']
 
@@ -53,11 +56,11 @@ def insert_row ():
     password = 'Password123!',
     db = 'sample')
 
-  json = request.get_json()
+  response = request.get_json()
   
   log = []
   
-  for entry in json:
+  for entry in response:
     entry['row']['fields'] = _encrypt(entry['row']['fields'])
     db.insert(entry['row'])
     log.append("INSERTED NEW ROW: %s into %s" % (str(entry['row']['fields']), str(entry['row']['table'])))
@@ -72,6 +75,8 @@ def query ():
       password = 'Password123!',
       db = 'sample')
 
+  print config['secret']
+
     # sample_query_json = {
     #   "query": {
     #     "table": "EMPLOYEE",
@@ -83,11 +88,11 @@ def query ():
     #   }
     # }
 
-  json = request.get_json()
+  response = request.get_json()
 
   log = []
 
-  for entry in json:
+  for entry in response:
     cols = entry['query']['cols']
     raw_results = db.select(entry['query'])
     json_results = [dict(zip(cols, row)) for row in raw_results]
