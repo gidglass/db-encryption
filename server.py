@@ -50,13 +50,15 @@ def insert_row ():
   #   }
   # }
   json = request.get_json()
-
+  output = []
+  for entry in json:
+    db.insert(entry['row'])
+    log = "INSERTED NEW ROW: %s into %s" % (str(entry['row']['fields']), str(entry['row']['table']))
+    output.append(log)
+  
   # TODO: ENCRYPT SENSATIVE JSON FIELDS HERE!!!
   # e.g. json['row']['fields']['FIRST_NAME'] = encrypt(key, data)
-
-  db.insert(json['row'])
-
-  return "INSERTED NEW ROW: %s into %s" % (json['row']['fields'] ,json['row']['table'])
+  return str(output)
 
 @app.route('/query', methods = ['POST'])
 def query ():

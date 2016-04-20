@@ -1,0 +1,17 @@
+{
+	"schema": {
+		"table": "CUSTOMER",
+		"fields": {
+			"ID": "INT(5)",
+			"FIRST_NAME": "VARCHAR(20) NOT NULL",
+			"LAST_NAME": "VARCHAR(20) NOT NULL",
+			"ADDRESS": "VARCHAR(50)",
+			"CITY": "VARCHAR(20)",
+			"STATE": "CHAR(2)",
+			"ZIP": "INT(5)",
+			"PHONE": "INT(10)",
+			"EMAIL": "VARCHAR(50)",
+			"SSN": "INT(9) NOT NULL"
+		}
+	}
+}

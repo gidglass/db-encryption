@@ -38,7 +38,7 @@ class Database:
     if drop_if_exists:
       self._execute("DROP TABLE IF EXISTS %s" % table)
 
-    self._execute(sql_schematable + sql_schema)
+    self._execute(sql_table + sql_schema)
 
   def insert (self, row):
     # sample_request_json = {
@@ -93,5 +93,5 @@ class Database:
     a, b = [], []
     for k, v in fields.iteritems():
       a.append(k)
-      b.append(v)
+      b.append(str(v))
     return (a, b)
