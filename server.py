@@ -55,14 +55,14 @@ def insert_row ():
 
   json = request.get_json()
   
-  transaction_log = []
+  log = []
   
   for entry in json:
     entry['row']['fields'] = _encrypt(entry['row']['fields'])
     db.insert(entry['row'])
     log.append("INSERTED NEW ROW: %s into %s" % (str(entry['row']['fields']), str(entry['row']['table'])))
 
-  return str(transaction_log)
+  return str(log)
 
 @app.route('/query', methods = ['POST'])
 def query ():
@@ -85,21 +85,16 @@ def query ():
 
   json = request.get_json()
 
-  cols = json['query']['cols']
-  raw_results = db.select(json['query'])
+  log = []
 
-  json_results = [dict(zip(cols, row)) for row in raw_results]
+  for entry in json:
+    cols = entry['query']['cols']
+    raw_results = db.select(entry['query'])
+    json_results = [dict(zip(cols, row)) for row in raw_results]
+    decrypted = [_decrypt(entry) for entry in json_results]
+    log.append(decrypted)
 
-  decrypted = [_decrypt(entry) for entry in json_results]
-
-
-  # TODO: DECRYPT SENSATIVE JSON FIELDS HERE!!!
-  # e.g. json['row']['fields']['FIRST_NAME'] = decrypt(key, data)
-
-  # results = db.select(json['query'])  
-
-  # TODO: Parse results, for now just print...
-  return "RESULTS: " + str(decrypted)
+  return "RESULTS: " + str(log)
 
 if __name__ == '__main__':
     app.run(debug=True)
