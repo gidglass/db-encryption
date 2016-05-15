@@ -8,6 +8,7 @@ An exploration of an application level encryption scheme using a modified Fernet
 * [Python](https://www.python.org/downloads/)
 * [Flask](http://flask.pocoo.org/docs/0.10/installation/)
 * [PyMySQL](https://pypi.python.org/pypi/PyMySQL)
+
 ### Setup:
 1. Install dependencies
 2. Start MySQL server
