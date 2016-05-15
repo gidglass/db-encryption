@@ -46,7 +46,7 @@ def create_table ():
   
   db.create_table(response['schema'])
 
-  return "CREATED NEW TABLE: %s" % json['schema']['table']
+  return "CREATED NEW TABLE: %s" % response['schema']['table']
 
 @app.route('/insert', methods = ['POST'])
 def insert_row ():
